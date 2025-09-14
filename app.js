@@ -3,18 +3,19 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 const Mydataa = require("./models/mydataSchema");
-const path = require("path");
+
+app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("views"));
 
 app.get("/", (req, res) => {
-  res.sendFile("home.html", { root: path.join(__dirname, "views") });
+  Mydataa.find()
+    .then((data) => {
+      res.render("home.ejs", { arr: data });
+    })
+    .catch((err) => console.log(err));
 });
-
-// app.get("/status.html", (req, res) => {
-//     res.sendFile("status.html", { root: path.join(__dirname, "views") });
-//   });
 
 app.post("/", (req, res) => {
   console.log(req.body);
