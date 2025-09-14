@@ -1,13 +1,37 @@
+// Dependencies
+
 const express = require("express");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 const Mydataa = require("./models/mydataSchema");
 
-app.set("view engine", "ejs");
+// Express.js Configuration
 
-app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.use(express.static("public"));
 app.use(express.static("views"));
+app.use(express.urlencoded({ extended: true }));
+
+
+
+// Auto-reload
+
+const path = require("path");
+const livereload = require("livereload");
+const LiveReloadServer = livereload.createServer();
+const connectLivereload = require("connect-livereload");
+
+LiveReloadServer.watch(path.join(__dirname, "public"));
+app.use(connectLivereload());
+LiveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+        LiveReloadServer.refresh("/");
+    }, 100);
+});
+
+
+// Get Routes
 
 app.get("/", (req, res) => {
   Mydataa.find()
@@ -16,6 +40,8 @@ app.get("/", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
+// Post Routes
 
 app.post("/", (req, res) => {
   console.log(req.body);
@@ -26,9 +52,13 @@ app.post("/", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+// Server Connection
+
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
+
+// MongoDB Connection
 
 main().catch((err) => console.log(err));
 async function main() {
