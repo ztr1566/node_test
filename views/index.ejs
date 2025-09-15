@@ -30,7 +30,12 @@
       <%- include('./components/sidebar.ejs', {status: 'index'}) %>
 
       <section class="w-100">
-        <%- include('./components/navbar.ejs') %>
+        <%- include('./components/navbar.ejs') %> <% if (users.length === 0) {
+        %>
+        <h3 class="text-center mt-5 fw-bold fs-4 border p-2 rounded border-2">
+          No users found
+        </h3>
+        <% } else { %>
         <table
           style="width: 99%"
           class="text-center mx-auto table mt-5 table-striped table-bordered"
@@ -61,7 +66,7 @@
                   data-bs-title="View details"
                   data-bs-placement="top"
                   class="btn btn-primary btn-sm"
-                  href="./user/<%= user._id %>"
+                  href="./view/<%= user._id %>"
                   ><i class="bi bi-eye"></i
                 ></a>
 
@@ -70,23 +75,30 @@
                   data-bs-title="Edit user"
                   data-bs-placement="top"
                   class="btn btn-primary btn-sm"
-                  href="./user/edit.html"
+                  href="./edit/<%= user._id %>"
                 >
                   <i class="bi bi-pencil"></i>
                 </a>
-                <button
-                  data-bs-toggle="tooltip"
-                  data-bs-title="Delete user"
-                  data-bs-placement="top"
-                  class="btn btn-danger btn-sm"
+                <form
+                  action="./edit/<%= user._id %>?_method=DELETE"
+                  method="post"
+                  style="display: inline"
                 >
-                  <i class="bi bi-trash"></i>
-                </button>
+                  <button
+                    data-bs-toggle="tooltip"
+                    data-bs-title="Delete user"
+                    data-bs-placement="top"
+                    class="btn btn-danger btn-sm"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
               </td>
             </tr>
             <% }) %>
           </tbody>
         </table>
+        <% } %>
       </section>
     </main>
     <script src="./js/bootstrap.bundle.min.js"></script>

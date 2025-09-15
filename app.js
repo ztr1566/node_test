@@ -5,13 +5,15 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 let moment = require("moment");
+let methodOverride = require("method-override");
+const { getNames } = require("country-list");
 // Express.js Configuration
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.static("views"));
 app.use(express.urlencoded({ extended: true }));
-
+app.use(methodOverride("_method"));
 // Auto-reload
 
 const path = require("path");
@@ -41,25 +43,42 @@ app.get("/", (req, res) => {
 });
 
 app.get("/user/add.html", (req, res) => {
-  res.render("user/add.ejs");
+  const countryNames = getNames();
+  res.render("user/add.ejs", { countryNames });
 });
 
-app.get("/user/:id", (req, res) => {
+app.get("/edit/:id", (req, res) => {
+  const countryNames = getNames();
   customUser
     .findById(req.params.id)
     .then((user) => {
-      console.log(user);
-      res.render("user/view.ejs", {user, moment});
+      res.render("user/edit.ejs", { user, moment, countryNames });
     })
     .catch((err) => {
       console.log(err);
     });
 });
 
+app.get("/view/:id", (req, res) => {
+  customUser
+    .findById(req.params.id)
+    .then((user) => {
+      res.render("user/view.ejs", { user, moment });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-
-app.get("/user/edit.html", (req, res) => {
-  res.render("user/edit.ejs", {});
+app.delete("/edit/:id", (req, res) => {
+  customUser
+    .deleteOne({ _id: req.params.id })
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // Post Routes

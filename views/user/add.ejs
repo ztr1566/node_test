@@ -30,7 +30,7 @@
       <%- include('../components/sidebar.ejs', {status: 'add'}) %>
 
       <section class="w-100">
-        <%- include('../components/navbar.ejs') %> 
+        <%- include('../components/navbar.ejs') %>
         <form
           action="/user/add.html"
           method="post"
@@ -116,8 +116,9 @@
                 <option selected hidden disabled value="">
                   Choose here ...
                 </option>
-                <option>Morocco</option>
-                <option>Egypt</option>
+                <% countryNames.forEach((country) => { %>
+                <option><%= country %></option>
+                <% }) %>
               </select>
             </div>
           </div>
