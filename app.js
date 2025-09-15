@@ -5,7 +5,6 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 
-
 // Express.js Configuration
 
 app.set("view engine", "ejs");
@@ -31,7 +30,14 @@ LiveReloadServer.server.once("connection", () => {
 // Get Routes
 
 app.get("/", (req, res) => {
-  res.render("index.ejs", {});
+  customUser
+    .find()
+    .then((users) => {
+      res.render("index.ejs", { users });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.get("/user/add.html", (req, res) => {
@@ -44,19 +50,33 @@ app.get("/user/edit.html", (req, res) => {
   res.render("user/edit.ejs", {});
 });
 
-
 // Post Routes
 
 app.post("/user/add.html", (req, res) => {
-  console.log(req.body);
+  const { firstname, lastname, email, phone, age, country, gender } = req.body;
+  if (
+    !firstname ||
+    !lastname ||
+    !email ||
+    !phone ||
+    !age ||
+    !country ||
+    !gender
+  ) {
+    return res.render("user/add.ejs", {
+      error: "Please fill out all fields.",
+    });
+  }
   const user = new customUser(req.body);
-  user.save().then(() => {
-    res.redirect("/user/view.html");
-  }).catch((err) => {
-    console.log(err);
-  });
+  user
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
-
 
 // Server Connection
 
