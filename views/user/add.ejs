@@ -6,7 +6,7 @@
       rel="stylesheet"
       href="../bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"
     />
-    <link rel="shortcut icon" href="../img/ali.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/ziad.png" type="image/x-icon" />
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,7 +16,7 @@
       content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
     />
     <meta name="generator" content="Hugo 0.112.5" />
-    <title>Homepage</title>
+    <title>Add User</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/dark-light.css" />
@@ -30,12 +30,7 @@
       <%- include('../components/sidebar.ejs', {status: 'add'}) %>
 
       <section class="w-100">
-        <%- include('../components/navbar.ejs') %>
-        <% if (typeof error !== 'undefined' && error) { %>
-          <div class="alert alert-danger" role="alert">
-              <%= error %>
-          </div>
-      <% } %>
+        <%- include('../components/navbar.ejs') %> 
         <form
           action="/user/add.html"
           method="post"

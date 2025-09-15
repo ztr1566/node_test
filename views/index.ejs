@@ -6,7 +6,7 @@
       rel="stylesheet"
       href="./bootstrap-icons-1.10.5/font/bootstrap-icons.min.css"
     />
-    <link rel="shortcut icon" href="./img/ali.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/ziad.png" type="image/x-icon" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
@@ -15,7 +15,7 @@
       content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
     />
     <meta name="generator" content="Hugo 0.112.5" />
-    <title>Home page</title>
+    <title>Homepage</title>
 
     <link href="./css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="./css/dark-light.css" />
@@ -54,14 +54,14 @@
               <td><%= user.gender %></td>
               <td><%= user.country %></td>
               <td><%= user.age %></td>
-              <td><%= user.updatedAt %></td>
+              <td><%= moment(user.updatedAt).fromNow() %></td>
               <td>
                 <a
                   data-bs-toggle="tooltip"
                   data-bs-title="View details"
                   data-bs-placement="top"
                   class="btn btn-primary btn-sm"
-                  href="./user/view.html"
+                  href="./user/<%= user._id %>"
                   ><i class="bi bi-eye"></i
                 ></a>
 

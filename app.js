@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
-
+let moment = require("moment");
 // Express.js Configuration
 
 app.set("view engine", "ejs");
@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
   customUser
     .find()
     .then((users) => {
-      res.render("index.ejs", { users });
+      res.render("index.ejs", { users, moment });
     })
     .catch((err) => {
       console.log(err);
@@ -41,11 +41,23 @@ app.get("/", (req, res) => {
 });
 
 app.get("/user/add.html", (req, res) => {
-  res.render("user/add.ejs", {});
+  res.render("user/add.ejs");
 });
-app.get("/user/view.html", (req, res) => {
-  res.render("user/view.ejs", {});
+
+app.get("/user/:id", (req, res) => {
+  customUser
+    .findById(req.params.id)
+    .then((user) => {
+      console.log(user);
+      res.render("user/view.ejs", {user, moment});
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
+
+
+
 app.get("/user/edit.html", (req, res) => {
   res.render("user/edit.ejs", {});
 });
