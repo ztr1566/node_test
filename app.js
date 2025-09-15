@@ -47,6 +47,16 @@ app.get("/user/edit.html", (req, res) => {
 
 // Post Routes
 
+app.post("/user/add.html", (req, res) => {
+  console.log(req.body);
+  const user = new customUser(req.body);
+  user.save().then(() => {
+    res.redirect("/user/view.html");
+  }).catch((err) => {
+    console.log(err);
+  });
+});
+
 
 // Server Connection
 
@@ -55,7 +65,7 @@ app.listen(port, () => {
 });
 
 // MongoDB Connection
-const Mydataa = require("./models/mydataSchema");
+const customUser = require("./models/mydataSchema");
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -63,5 +73,5 @@ async function main() {
     .connect(
       "mongodb+srv://zizoo1566_db:5kvP6ZDwfYv050Dj@cluster0.k8vqb7s.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0"
     )
-    .then(() => console.log("Connected to MongoDB"));
+    .then(() => console.log("Connected to database"));
 }

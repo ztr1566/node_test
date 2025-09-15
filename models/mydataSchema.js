@@ -2,7 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const mydataSchema = new Schema({
-  usernamee: String,
+  firstname: String,
+  lastname: String,
+  email: String,
+  phone: String,
+  age: Number,
+  country: String,
+  gender: String,
 });
 
-module.exports = mongoose.model("Mydataa", mydataSchema);
+module.exports = mongoose.model("customUser", mydataSchema);
