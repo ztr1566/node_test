@@ -70,6 +70,8 @@ app.get("/view/:id", (req, res) => {
     });
 });
 
+// Delete Routes
+
 app.delete("/edit/:id", (req, res) => {
   customUser
     .deleteOne({ _id: req.params.id })
@@ -80,6 +82,8 @@ app.delete("/edit/:id", (req, res) => {
       console.log(err);
     });
 });
+
+// Update Routes
 
 app.put("/edit/:id", (req, res) => {
   customUser
