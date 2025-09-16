@@ -109,6 +109,27 @@ app.post("/user/add.html", (req, res) => {
     });
 });
 
+// Search Routes
+
+app.post("/search", (req, res) => {
+  customUser
+    .find({
+      $or: [
+        { firstname: { $regex: req.body.search, $options: "i" } },
+        { lastname: { $regex: req.body.search, $options: "i" } },
+        { country: { $regex: req.body.search, $options: "i" } },
+        { gender: { $regex: req.body.search, $options: "i" } },
+        { age: { $eq: parseInt(req.body.search) } },
+      ],
+    })
+    .then((users) => {
+      res.render("user/search.ejs", { users, moment });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // Server Connection
 
 app.listen(port, () => {
