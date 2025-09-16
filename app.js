@@ -32,10 +32,23 @@ LiveReloadServer.server.once("connection", () => {
 // Get Routes
 
 app.get("/", (req, res) => {
+  const status = "index";
   customUser
     .find()
     .then((users) => {
-      res.render("index.ejs", { users, moment });
+      res.render("index.ejs", { users, moment, status, title: "Homepage" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.get("/search", (req, res) => {
+  const status = "search";
+  customUser
+    .find()
+    .then((users) => {
+      res.render("user/search.ejs", { users, moment, status, title: "Search" });
     })
     .catch((err) => {
       console.log(err);
@@ -44,15 +57,17 @@ app.get("/", (req, res) => {
 
 app.get("/user/add.html", (req, res) => {
   const countryNames = getNames();
-  res.render("user/add.ejs", { countryNames });
+  const status = "add";
+  res.render("user/add.ejs", { countryNames, status, title: "Add User" });
 });
 
 app.get("/edit/:id", (req, res) => {
   const countryNames = getNames();
+  const status = "edit";
   customUser
     .findById(req.params.id)
     .then((user) => {
-      res.render("user/edit.ejs", { user, moment, countryNames });
+      res.render("user/edit.ejs", { user, moment, countryNames, status, title: "Edit User" });
     })
     .catch((err) => {
       console.log(err);
@@ -60,10 +75,11 @@ app.get("/edit/:id", (req, res) => {
 });
 
 app.get("/view/:id", (req, res) => {
+  const status = "view";
   customUser
     .findById(req.params.id)
     .then((user) => {
-      res.render("user/view.ejs", { user, moment });
+      res.render("user/view.ejs", { user, moment, status, title: "View User" });
     })
     .catch((err) => {
       console.log(err);
@@ -73,6 +89,7 @@ app.get("/view/:id", (req, res) => {
 // Delete Routes
 
 app.delete("/edit/:id", (req, res) => {
+  const status = "edit";
   customUser
     .deleteOne({ _id: req.params.id })
     .then(() => {
@@ -86,6 +103,7 @@ app.delete("/edit/:id", (req, res) => {
 // Update Routes
 
 app.put("/edit/:id", (req, res) => {
+  const status = "edit";
   customUser
     .updateOne({ _id: req.params.id }, req.body)
     .then(() => {
@@ -99,6 +117,7 @@ app.put("/edit/:id", (req, res) => {
 // Post Routes
 
 app.post("/user/add.html", (req, res) => {
+  const status = "add";
   customUser
     .create(req.body)
     .then(() => {
@@ -112,18 +131,29 @@ app.post("/user/add.html", (req, res) => {
 // Search Routes
 
 app.post("/search", (req, res) => {
+  const searchTerm = req.body.search;
+  const status = "search";
+
+  const queryConditions = [
+    { firstname: { $regex: searchTerm, $options: "i" } },
+    { lastname: { $regex: searchTerm, $options: "i" } },
+    { country: { $regex: searchTerm, $options: "i" } },
+    { gender: { $regex: searchTerm, $options: "i" } },
+  ];
+
+  const searchNumber = parseInt(searchTerm, 10);
+  if (!isNaN(searchNumber)) {
+    queryConditions.push(
+      { age: { $eq: searchNumber } },
+      { phone: { $eq: searchNumber } }
+    );
+  }
   customUser
     .find({
-      $or: [
-        { firstname: { $regex: req.body.search, $options: "i" } },
-        { lastname: { $regex: req.body.search, $options: "i" } },
-        { country: { $regex: req.body.search, $options: "i" } },
-        { gender: { $regex: req.body.search, $options: "i" } },
-        { age: { $eq: parseInt(req.body.search) } },
-      ],
+      $or: queryConditions,
     })
     .then((users) => {
-      res.render("user/search.ejs", { users, moment });
+      res.render("user/search.ejs", { users, moment, status, title: "Search" });
     })
     .catch((err) => {
       console.log(err);
