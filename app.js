@@ -89,7 +89,6 @@ app.get("/view/:id", (req, res) => {
 // Delete Routes
 
 app.delete("/edit/:id", (req, res) => {
-  const status = "edit";
   customUser
     .deleteOne({ _id: req.params.id })
     .then(() => {
@@ -103,7 +102,6 @@ app.delete("/edit/:id", (req, res) => {
 // Update Routes
 
 app.put("/edit/:id", (req, res) => {
-  const status = "edit";
   customUser
     .updateOne({ _id: req.params.id }, req.body)
     .then(() => {
@@ -117,7 +115,6 @@ app.put("/edit/:id", (req, res) => {
 // Post Routes
 
 app.post("/user/add.html", (req, res) => {
-  const status = "add";
   customUser
     .create(req.body)
     .then(() => {
@@ -131,7 +128,7 @@ app.post("/user/add.html", (req, res) => {
 // Search Routes
 
 app.post("/search", (req, res) => {
-  const searchTerm = req.body.search;
+  const searchTerm = req.body.search.trim();
   const status = "search";
 
   const queryConditions = [
