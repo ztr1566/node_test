@@ -27,7 +27,7 @@ app.use(methodOverride("_method"));
 
 // Get Routes
 app.use(all_routes);
-app.use("/user/add", add_user);
+app.use("/user/add.html", add_user);
 
 // Server Connection
 

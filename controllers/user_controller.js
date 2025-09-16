@@ -2,7 +2,7 @@ let moment = require("moment");
 const { getNames } = require("country-list");
 const customUser = require("../models/mydataSchema");
 
-const index = (req, res) => {
+const user_get_index = (req, res) => {
   const status = "index";
   customUser
     .find()
@@ -19,7 +19,7 @@ const index = (req, res) => {
     });
 };
 
-const search = (req, res) => {
+const user_get_search = (req, res) => {
   const status = "search";
   customUser
     .find()
@@ -36,7 +36,7 @@ const search = (req, res) => {
     });
 };
 
-const add = (req, res) => {
+const user_get_add = (req, res) => {
   const countryNames = getNames();
   const status = "add";
   res.render("user/add.ejs", {
@@ -46,7 +46,7 @@ const add = (req, res) => {
   });
 };
 
-const edit = (req, res) => {
+const user_get_edit = (req, res) => {
   const countryNames = getNames();
   const status = "edit";
   customUser
@@ -65,7 +65,7 @@ const edit = (req, res) => {
     });
 };
 
-const view = (req, res) => {
+const user_get_view = (req, res) => {
   const status = "view";
   customUser
     .findById(req.params.id)
@@ -77,7 +77,7 @@ const view = (req, res) => {
     });
 };
 
-const deleteItem = (req, res) => {
+const user_delete = (req, res) => {
   customUser
     .deleteOne({ _id: req.params.id })
     .then(() => {
@@ -88,7 +88,7 @@ const deleteItem = (req, res) => {
     });
 };
 
-const updateItem = (req, res) => {
+const user_update = (req, res) => {
   customUser
     .updateOne({ _id: req.params.id }, req.body)
     .then(() => {
@@ -99,7 +99,7 @@ const updateItem = (req, res) => {
     });
 };
 
-const postAdd = (req, res) => {
+const user_post_add = (req, res) => {
   customUser
     .create(req.body)
     .then(() => {
@@ -110,7 +110,7 @@ const postAdd = (req, res) => {
     });
 };
 
-const postSearch = (req, res) => {
+const user_post_search = (req, res) => {
   const searchTerm = req.body.search.trim();
   const status = "search";
 
@@ -141,13 +141,13 @@ const postSearch = (req, res) => {
 };
 
 module.exports = {
-  index,
-  search,
-  add,
-  edit,
-  view,
-  deleteItem,
-  updateItem,
-  postAdd,
-  postSearch,
+  user_get_index,
+  user_get_search,
+  user_get_add,
+  user_get_edit,
+  user_get_view,
+  user_delete,
+  user_update,
+  user_post_add,
+  user_post_search,
 };
