@@ -6,7 +6,7 @@ const mydataSchema = new Schema(
     firstname: String,
     lastname: String,
     email: String,
-    phone: String,
+    phone: Number,
     age: Number,
     country: String,
     gender: String,

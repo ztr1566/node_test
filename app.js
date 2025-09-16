@@ -81,26 +81,22 @@ app.delete("/edit/:id", (req, res) => {
     });
 });
 
+app.put("/edit/:id", (req, res) => {
+  customUser
+    .updateOne({ _id: req.params.id }, req.body)
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // Post Routes
 
 app.post("/user/add.html", (req, res) => {
-  const { firstname, lastname, email, phone, age, country, gender } = req.body;
-  if (
-    !firstname ||
-    !lastname ||
-    !email ||
-    !phone ||
-    !age ||
-    !country ||
-    !gender
-  ) {
-    return res.render("user/add.ejs", {
-      error: "Please fill out all fields.",
-    });
-  }
-  const user = new customUser(req.body);
-  user
-    .save()
+  customUser
+    .create(req.body)
     .then(() => {
       res.redirect("/");
     })

@@ -49,10 +49,11 @@
           </p>
         </nav>
 
-        <form class="mx-0 row gx-3 gy-4 mt-2">
+        <form action="/edit/<%= user._id %>?_method=PUT" method="post" class="mx-0 row gx-3 gy-4 mt-2">
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
+              name="firstname"
               value="<%= user.firstname %>"
               type="text"
               class="form-control"
@@ -62,6 +63,7 @@
           <div class="col-md-6">
             <label for="inputlastName4" class="form-label">Last Name:</label>
             <input
+              name="lastname"
               value="<%= user.lastname %>"
               type="text"
               class="form-control"
@@ -72,6 +74,7 @@
           <div class="col-md-6">
             <label for="inputemail4" class="form-label">Email:</label>
             <input
+              name="email"
               value="<%= user.email %>"
               type="email"
               class="form-control"
@@ -81,6 +84,7 @@
           <div class="col-md-6">
             <label for="inputtele4" class="form-label">Telephone:</label>
             <input
+              name="phone"
               value="<%= user.phone %>"
               type="number"
               class="form-control"
@@ -92,6 +96,7 @@
             <div class="col-md-6">
               <label for="inputage4" class="form-label">Age:</label>
               <input
+                name="age"
                 value="<%= user.age %>"
                 type="number"
                 class="form-control"
@@ -124,9 +129,11 @@
           </div>
 
           <div class="col-12">
-            <button type="submit" class="btn btn-primary">
-              Update changes
-            </button>
+            <form action="/edit/<%= user._id %>?_method=PUT" method="post">
+              <button type="submit" class="btn btn-primary">
+                Update changes
+              </button>
+            </form>
             <button
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"
