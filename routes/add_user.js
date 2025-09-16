@@ -1,26 +1,12 @@
-const { getNames } = require("country-list");
-const customUser = require("../models/mydataSchema");
 const router = require("express").Router();
+const userController = require("../controllers/user_controller");
 
 // Get Routes
 
-router.get("", (req, res) => {
-  const countryNames = getNames();
-  const status = "add";
-  res.render("user/add.ejs", { countryNames, status, title: "Add User" });
-});
+router.get("", userController.add);
 
 // Post Routes
 
-router.post("", (req, res) => {
-  customUser
-    .create(req.body)
-    .then(() => {
-      res.redirect("/");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+router.post("", userController.postAdd);
 
 module.exports = router;
